@@ -27,9 +27,6 @@ htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 
 
 <?php                           
-echo "<h2>Your input: </h2>";
-echo $query;
-
 $rs = $db->query($query);
 
 /*while($row = $rs->fetch_assoc()) {
