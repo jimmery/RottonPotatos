@@ -30,8 +30,8 @@
  CREATE TABLE MovieDirector(
     mid int,
     did int,
-	FOREIGN KEY mid REFERENCES Movie(id) ON UPDATE CASCADE ON DELETE CASCADE,
-	FOREIGN KEY did REFERENCES Director(id) ON UPDATE CASCADE ON DELETE CASCADE
+	FOREIGN KEY (mid) REFERENCES Movie(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (did) REFERENCES Director(id) ON UPDATE CASCADE ON DELETE CASCADE
  );
  
  CREATE TABLE MovieActor(
@@ -50,8 +50,8 @@
     time timestamp,
     mid int,
     rating int,
-    comment varchar(500)
-	FOREIGN KEY (mid) REFERENCES Movie(mid) ON UPDATE CASCADE ON DELETE CASCADE,
+    comment varchar(500),
+	FOREIGN KEY (mid) REFERENCES Movie(id) ON UPDATE CASCADE ON DELETE CASCADE
  );
  
  CREATE TABLE MaxPersonID(
