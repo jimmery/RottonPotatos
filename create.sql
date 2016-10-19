@@ -3,7 +3,8 @@
     title varchar(100),
     year int,
     rating varchar(10),
-    company varchar(50)
+    company varchar(50),
+	CHECK (id <= MaxMovieID && id >= 0)
  );
  
  CREATE TABLE Actor(
@@ -12,7 +13,8 @@
     first varchar(20),
     sex varchar(6),
     dob date,
-    dod date
+    dod date,
+	CHECK (id <= MaxPersonID.id && id >= 0)
  );
  
  CREATE TABLE Director(
@@ -20,7 +22,8 @@
     last varchar(20),
     first varchar(20),
     dob date,
-    dod date
+    dod date,
+	CHECK (id <= MaxPersonID.id && id >= 0)
  );
  
  
@@ -48,15 +51,17 @@
     mid int,
     rating int,
     comment varchar(500)
-	FOREIGN KEY (mid) REFERENCES Movie(mid) ON UPDATE CASCADE ON DELETE CASCADE;
+	FOREIGN KEY (mid) REFERENCES Movie(mid) ON UPDATE CASCADE ON DELETE CASCADE,
  );
  
  CREATE TABLE MaxPersonID(
-    id int
+    id int,
+	CHECK (id >= 0)
  );
  
 CREATE TABLE MaxMovieID(
-    id int
+    id int,
+	CHECK (id >= 0)
 );
 /* end 1c stuff
 ===============================*/
@@ -64,5 +69,6 @@ CREATE TABLE MaxMovieID(
   CREATE TABLE MovieGenre(
     mid int, 
     genre varchar(20),
-	FOREIGN KEY (mid) REFERENCES Movie(id) ON UPDATE CASCADE ON DELETE CASCADE
+	FOREIGN KEY (mid) REFERENCES Movie(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	CHECK (mid < MaxMovieID.id && mid >= 0)
  ); 
