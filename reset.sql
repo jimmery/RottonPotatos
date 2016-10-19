@@ -4,5 +4,6 @@ DROP TABLE Review;
 DROP TABLE MovieGenre;
 DROP TABLE Movie;
 DROP TABLE Actor;
+DROP TABLE Director;
 DROP TABLE MaxPersonID;
 DROP TABLE MaxMovieID;
