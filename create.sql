@@ -88,7 +88,7 @@ CREATE TABLE MaxMovieID(
   CREATE TABLE MovieGenre(
     mid int, 
     genre varchar(20),
-	FOREIGN KEY (mid) REFERENCES Movie(id) ON UPDATE CASCADE ON DELETE CASCADE, /* The movie id must exist in the Movie
+	FOREIGN KEY (mid) REFERENCES Movie(id) ON UPDATE CASCADE ON DELETE CASCADE /* The movie id must exist in the Movie
 																					table. Also, if we remove/update the movie
 																					id in the Movie table, it should be updated/removed
 																					accordingly here*/
