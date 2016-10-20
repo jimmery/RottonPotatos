@@ -4,7 +4,7 @@
     year int,
     rating varchar(10),
     company varchar(50),
-	CHECK (id <= MaxMovieID && id >= 0) /* movie id cannot be greater than maxmovieid, but it must not be negative */
+	CHECK (id >= 0) /* movie id must not be negative */
  );
  
  CREATE TABLE Actor(
@@ -14,7 +14,7 @@
     sex varchar(6),
     dob date,
     dod date,
-	CHECK (id <= MaxPersonID.id && id >= 0) /* actor id cannot be greater than maxpersonid, but it must not be negative */
+	CHECK (id >= 0) /* actor id must not be negative */
  );
  
  CREATE TABLE Director(
@@ -23,7 +23,7 @@
     first varchar(20),
     dob date,
     dod date,
-	CHECK (id <= MaxPersonID.id && id >= 0) /* director id cannot be greater than maxpersonid, but it must not be negative */
+	CHECK (id >= 0) /* director id must not be negative */
  );
  
  
