@@ -9,23 +9,32 @@ if ($db->connect_errno > 0)
     die('Unable to connect to database [' . $db->connect_error . ']');
 }
 
-echo "<h1>Add Actor/Director Info</h1>";
+echo "<h1>Add Actor Info</h1>";
 echo "[FIRST NAME] [LAST NAME]";
 
 $first_name = "";
 $last_name = "";
-
+$sex = "";
+$query = "";
+$dob = '2001-09-11';
+$dod = '2016-04-20';
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $first_name = $_GET["first"];
     $last_name =  $_GET["last"];
+    $sex = $_GET["sex"];
+    $dob = $_GET["dob"];
+    $dod = $_GET["dod"];
 }
 ?>
 
 <form method="get" action="<?php echo
 htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <input type="text" name="first" value="">
-    <input type="text" name="last" value="">
+    <input type="text" name="first" value="first">
+    <input type="text" name="last" value="last">
+    <input type="text" name="sex" value="sex">
+    <input type="date" name="dob" value="birth date">
+    <input type="date" name="dod" value="death date">
     <input type="submit" name="submit" value="click dis">
 </form>
 
@@ -39,4 +48,17 @@ if (strlen($first_name) != 0) {
 if (strlen($last_name) != 0) {
     echo "last name: " . $last_name . "<br>";
 }
+
+if (strlen($sex) != 0) {
+    echo "sex: " . $sex . "<br>";
+}
+
+//get new id from max value in MaxPersonID + 1
+$query = "INSERT INTO Actor VALUES (" . 1 . "," 
+        . $last_name . "," . $first_name . ","
+        . $sex . "," . $dob . "," . $dod . ")";
+
+echo $query;
+
 ?>
+
