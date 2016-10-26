@@ -52,11 +52,11 @@ if (strlen($search) != 0)
         }
         echo "<tr>";
         $name = $row["first"] . " " . $row["last"];
-    $dob = $row["dob"];
-    echo "<td>$name</td>";
-    echo "<td>$dob</td>";
-    
-    echo "</tr>";
+        $dob = $row["dob"];
+        echo "<td>$name</td>";
+        echo "<td>$dob</td>";
+
+        echo "</tr>";
     }
     echo "</table>";
     
