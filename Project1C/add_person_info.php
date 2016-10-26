@@ -10,7 +10,6 @@ if ($db->connect_errno > 0)
 }
 
 echo "<h1>Add Actor Info</h1>";
-echo "[FIRST NAME] [LAST NAME]";
 
 $first_name = "";
 $last_name = "";
@@ -41,24 +40,20 @@ htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 <?php
 echo "<br>";
 
-if (strlen($first_name) != 0) {
-    echo "first name: " . $first_name . "<br>";
-}
+if (strlen($first_name) != 0) { echo "first name: " . $first_name . "<br>"; }
+if (strlen($last_name) != 0) { echo "last name: " . $last_name . "<br>"; }
+if (strlen($sex) != 0) { echo "sex: " . $sex . "<br>"; }
+echo "dob: " . $dob . "<br>";
+echo "dod: " . $dod . "<br>";
 
-if (strlen($last_name) != 0) {
-    echo "last name: " . $last_name . "<br>";
-}
+//TODO: get new id from max value in MaxPersonID + 1
+$id = 2;
 
-if (strlen($sex) != 0) {
-    echo "sex: " . $sex . "<br>";
-}
-
-//get new id from max value in MaxPersonID + 1
-$query = "INSERT INTO Actor VALUES (" . 1 . "," 
+$query = "INSERT INTO Actor VALUES (" . $id . "," 
         . $last_name . "," . $first_name . ","
         . $sex . "," . $dob . "," . $dod . ")";
 
-echo $query;
+echo "query: " . $query;
 
 ?>
 
