@@ -69,7 +69,7 @@ $query = "INSERT INTO Movie VALUES (" . $id . ","
         . $title . "," . $year . ","
         . $rating . "," . $company . ");";
 
-echo "query: " . $query;
+echo "query: " . $query . "<br>";
 
 //must at least have a title
 if (strlen($title) != 0) {
