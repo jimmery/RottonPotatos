@@ -14,9 +14,11 @@ echo "Search:";
 
 $search = "";
 $query = "";
+//$words = [];
 if ($_SERVER["REQUEST_METHOD"] == "GET")
 {
-    $search = $_GET["search"];
+    $search = $_GET["search"]);
+    $words = explode(" ", $search);
 }
 ?>
 
@@ -25,17 +27,34 @@ htmlspecialchars($_SERVER["PHP_SELF"]);?>">
     <input type="text" name="search"  value="">
     <input type="submit" name="submit" value="Click Me!">
 </form>
-                               
+                              
 <?php
 echo "<br>";
 
+$size = count($words);
 
-if (strlen($search) != 0)
+var_dump($words);
+echo "<br>";
+
+if ($size > 0 && strlen($words[0]) > 0)
 {
-    $query = "SELECT * FROM Actor WHERE first LIKE '%" . $search . "%'" .
-           " OR last LIKE '%" . $search . "%';";
+    $query = "SELECT * FROM Actor WHERE first LIKE '%" . $words[0] . "%'";
 
-    $rs = $db->query($query);
+    if ($size == 1)
+    {
+        $query = $query . " OR last LIKE '%" . $words[0] . "%'";
+    }
+    $count = 1;
+    while ($count < $size)
+    {
+        $query = $query . " AND last LIKE '%" . $words[$count] . "%'";
+        $count = $count + 1;
+    }
+
+    $query = $query . ";";
+
+    /*$rs = $db->query($query);
+    var_dump($rs);
     $attributes_defined = FALSE;
     while ($row = $rs->fetch_assoc())
     {
@@ -61,7 +80,7 @@ if (strlen($search) != 0)
     echo "</table>";
     
     //print 'Total results: ' . $rs->num_rows. '<br>';
-    $rs->free();
+    /*$rs->free();
     
     $query = "SELECT * FROM Movie WHERE title LIKE '%" . $search . "%';";
     $rs = $db->query($query);
@@ -91,6 +110,6 @@ if (strlen($search) != 0)
     echo "</table>";
     
     //print 'Total results: ' . $rs->num_rows;
-    $rs->free();
+    $rs->free();*/
 }
 ?>
