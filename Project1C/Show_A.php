@@ -87,7 +87,6 @@ else if ($identifier > 0) {
     echo "<table border=\"1\" cellspacing=\"2\" cellpadding=\"8\">";
     if (!$attributes_defined) {
         echo "<tr>";
-        echo "<th>Actor name</th>";
         echo "<th>Sex</th>";
         echo "<th>Date of Birth</th>";
         echo "<th>Date of Death</th>";
@@ -98,22 +97,15 @@ else if ($identifier > 0) {
 
     // ACTOR INFO DATA
     echo "<tr>";
-    //name
-    echo "<td>$fullName</td>";
-    //sex
     echo "<td>$sex</td>";
-    //birth
     echo "<td>$dob</td>";
-    //death
     if ($dod != null) {
         echo "<td></td>";
     } else {
         echo "<td>Still alive or date of death not known</td>";
     }
     echo "</tr>";
-    
-    echo "<br><br>";
-    
+        
     echo "<h2>$fullName's Movies and Roles</h2>";
         
     $getInfoQuery = "SELECT mid, role FROM MovieActor WHERE aid=" . $identifier . ";";

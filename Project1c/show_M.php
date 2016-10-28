@@ -85,7 +85,6 @@ else if ($identifier > 0) {
     echo "<table border=\"1\" cellspacing=\"2\" cellpadding=\"8\">";
     if (!$attributes_defined) {
         echo "<tr>";
-        echo "<th>Movie Title</th>";
         echo "<th>Year</th>";
         echo "<th>Rating</th>";
         echo "<th>Company</th>";
@@ -95,14 +94,9 @@ else if ($identifier > 0) {
        
         // Movie INFO DATA
         echo "<tr>";
-        //name
-        echo "<td>$title</td>";
-        //sex
         echo "<td>$year</td>";
-        //birth
         echo "<td>$rating</td>";
-        //company
-        echo "<td>Still alive or date of death not known</td>";
+        echo "<td>$company</td>";
         echo "</tr>";
     
     echo "<br><br>";
