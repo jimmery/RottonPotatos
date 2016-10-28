@@ -80,13 +80,11 @@ echo "insert into director-movie relation query: " . $insert_DM . "<br>";
 $db->query($insert_DM);
 
 
-
 // FOR REFERENCE:
 //====================================================================
-// CREATE TABLE MovieActor(
+//CREATE TABLE MovieDirector(
 //    mid int,
-//    aid int,
-//    role varchar(50),
-//	FOREIGN KEY (mid) REFERENCES Movie(id) ON UPDATE CASCADE ON DELETE CASCADE,
-//	FOREIGN KEY (aid) REFERENCES Actor(id) ON UPDATE CASCADE ON DELETE CASCADE
+//    did int,
+//	FOREIGN KEY mid REFERENCES Movie(id) ON UPDATE CASCADE ON DELETE CASCADE,
+//	FOREIGN KEY did REFERENCES Director(id) ON UPDATE CASCADE ON DELETE CASCADE
 // );

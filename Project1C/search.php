@@ -17,7 +17,7 @@ $query = "";
 //$words = [];
 if ($_SERVER["REQUEST_METHOD"] == "GET")
 {
-    $search = $_GET["search"]);
+    $search = $_GET["search"];
     $words = explode(" ", $search);
 }
 ?>
@@ -33,27 +33,27 @@ echo "<br>";
 
 $size = count($words);
 
-var_dump($words);
+//var_dump($words);
 echo "<br>";
 
 if ($size > 0 && strlen($words[0]) > 0)
 {
-    $query = "SELECT * FROM Actor WHERE first LIKE '%" . $words[0] . "%'";
+    $query = "SELECT * FROM Actor WHERE first LIKE '" . $words[0] . "%'";
 
     if ($size == 1)
     {
-        $query = $query . " OR last LIKE '%" . $words[0] . "%'";
+        $query = $query . " OR last LIKE '" . $words[0] . "%'";
     }
     $count = 1;
     while ($count < $size)
     {
-        $query = $query . " AND last LIKE '%" . $words[$count] . "%'";
+        $query = $query . " AND last LIKE '" . $words[$count] . "%'";
         $count = $count + 1;
     }
 
     $query = $query . ";";
 
-    /*$rs = $db->query($query);
+    $rs = $db->query($query);
     var_dump($rs);
     $attributes_defined = FALSE;
     while ($row = $rs->fetch_assoc())
@@ -80,7 +80,7 @@ if ($size > 0 && strlen($words[0]) > 0)
     echo "</table>";
     
     //print 'Total results: ' . $rs->num_rows. '<br>';
-    /*$rs->free();
+    $rs->free();
     
     $query = "SELECT * FROM Movie WHERE title LIKE '%" . $search . "%';";
     $rs = $db->query($query);
@@ -110,6 +110,6 @@ if ($size > 0 && strlen($words[0]) > 0)
     echo "</table>";
     
     //print 'Total results: ' . $rs->num_rows;
-    $rs->free();*/
+    $rs->free();
 }
 ?>
