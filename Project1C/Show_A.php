@@ -72,7 +72,16 @@ if ($identifier == null || $identifier < 0) {
 else if ($identifier > 0) {
     $query = "SELECT * FROM Actor WHERE id=" . $identifier . ";";
     $rs = $db->query($query);
-    echo "<h2>Actor's Info</h2>";
+    $row = $rs->fetch_assoc();
+    $first = $row["first"];
+    $last = $row["last"];
+    $fullName = $first . " " . $last;
+    $sex = $row["sex"];
+    $dob = $row["dob"];
+    $dod = $row["dod"];
+    $rs->free();
+    
+    echo "<h2>$fullName</h2>";
     //ACTOR INFO TABLE SETUP
     $attributes_defined = false;
     echo "<table border=\"1\" cellspacing=\"2\" cellpadding=\"8\">";
@@ -85,34 +94,27 @@ else if ($identifier > 0) {
         echo "</tr>";
         $attributes_defined = true;
     }
-    if ( $row = $rs->fetch_assoc() ) {
-        $first = $row["first"];
-        $last = $row["last"];
-        $fullName = $first . " " . $last;
-        $sex = $row["sex"];
-        $dob = $row["dob"];
-        $dod = $row["dod"];
-        $rs->free();
-        
-        // ACTOR INFO DATA
-        echo "<tr>";
-        //name
-        echo "<td>$fullName</td>";
-        //sex
-        echo "<td>$sex</td>";
-        //birth
-        echo "<td>$dob</td>";
-        //death
-        if ($dod != null) {
-            echo "<td></td>";
-        } else {
-            echo "<td>Still alive or date of death not known</td>";
-        }
-        echo "</tr>";
+
+
+    // ACTOR INFO DATA
+    echo "<tr>";
+    //name
+    echo "<td>$fullName</td>";
+    //sex
+    echo "<td>$sex</td>";
+    //birth
+    echo "<td>$dob</td>";
+    //death
+    if ($dod != null) {
+        echo "<td></td>";
+    } else {
+        echo "<td>Still alive or date of death not known</td>";
     }
+    echo "</tr>";
+    
     echo "<br><br>";
     
-    echo "<h2>Actor's Movies and Roles</h2>";
+    echo "<h2>$fullName's Movies and Roles</h2>";
         
     $getInfoQuery = "SELECT mid, role FROM MovieActor WHERE aid=" . $identifier . ";";
     $rs = $db->query($getInfoQuery);
@@ -144,9 +146,11 @@ else if ($identifier > 0) {
         $movieRating = $movieRow["rating"];
         $movieCompany = $movieRow["company"];
         
+        $movieURL = "http://localhost:1438/~cs143/RottonPotatos/Project1C/Show_M.php?identifier=" . $movieId;
+        
         //print to table
         echo "<td>$role</td>";
-        echo "<td>$movieTitle</td>";
+        echo "<td><a href=$movieURL>$movieTitle</td>";
         echo "<td>$movieYear</td>";
         echo "<td>$movieRating</td>";
         echo "<td>$movieCompany</td>";

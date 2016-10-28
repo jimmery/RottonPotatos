@@ -60,8 +60,8 @@ if ($identifier == null || $identifier < 0) {
         $id = $row["id"];
         $movieURL = "http://localhost:1438/~cs143/RottonPotatos/Project1C/Show_M.php?identifier=" . $id;
         echo "<td><a href=$movieURL>$title</td>";
-        echo "<td><a href=$movieURL>$rating</td>";
-        echo "<td><a href=$movieURL>$year</td>";
+        echo "<td>$rating</td>";
+        echo "<td>$year</td>";
         echo "</tr>";
     }
     echo "</table>";
@@ -72,7 +72,14 @@ if ($identifier == null || $identifier < 0) {
 else if ($identifier > 0) {
     $query = "SELECT * FROM Movie WHERE id=" . $identifier . ";";
     $rs = $db->query($query);
-    echo "<h2>Movie Info</h2>";
+    $row = $rs->fetch_assoc();
+    $title = $row["title"];
+    $year = $row["year"];
+    $rating = $row["rating"];
+    $company = $row["company"];
+    $rs->free();
+    
+    echo "<h1>$title</h1>";
     //Movie INFO TABLE SETUP
     $attributes_defined = false;
     echo "<table border=\"1\" cellspacing=\"2\" cellpadding=\"8\">";
@@ -85,13 +92,7 @@ else if ($identifier > 0) {
         echo "</tr>";
         $attributes_defined = true;
     }
-    if ( $row = $rs->fetch_assoc() ) {
-        $title = $row["title"];
-        $year = $row["year"];
-        $rating = $row["rating"];
-        $company = $row["company"];
-        $rs->free();
-        
+       
         // Movie INFO DATA
         echo "<tr>";
         //name
@@ -103,10 +104,10 @@ else if ($identifier > 0) {
         //company
         echo "<td>Still alive or date of death not known</td>";
         echo "</tr>";
-    }
+    
     echo "<br><br>";
     
-    echo "<h2>Actor's in this movie</h2>";
+    echo "<h2>Actor's in $title</h2>";
         
     $getInfoQuery = "SELECT aid, role FROM MovieActor WHERE mid=" . $identifier . ";";
     $rs = $db->query($getInfoQuery);
