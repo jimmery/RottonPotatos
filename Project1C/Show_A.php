@@ -25,19 +25,35 @@ if ($_SERVER["REQUEST_METHOD"] == "GET")
     
 <form method="get" action="<?php echo
 htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <TEXTAREA NAME="actor" ROWS=1 COLS=30></TEXTAREA> <br>
+    <input type="text" name="actor" value=""> <br>
     <input type="submit" name="submit" value="Click Me!">
 </form>
                                
 <?php
 if ($identifier == null || $identifier < 0) {
-
     echo "<br>";
+    
     echo "<h2> Actors with this Name </h2>";
     /*$query = "SELECT * FROM Actor WHERE first = \"" . $actor . "\"" .
       " OR last = \"" . $actor . "\";";*/
-    $query = "SELECT * FROM Actor WHERE first LIKE '%" . $actor . "%'" .
-           " OR last LIKE '%" . $actor . "%';";
+    $words = explode(" ", $actor);
+    $size = count($words);
+    $query = "SELECT * FROM Actor WHERE first LIKE '" . $words[0] . "%'";
+
+    if ($size == 1)
+    {
+        $query = $query . " OR last LIKE '" . $words[0] . "%'";
+    }
+    $count = 1;
+    while ($count < $size)
+    {
+        $query = $query . " AND last LIKE '" . $words[$count] . "%'";
+        $count = $count + 1;
+    }
+
+    $query = $query . ";";
+    /*$query = "SELECT * FROM Actor WHERE first LIKE '%" . $actor . "%'" .
+      " OR last LIKE '%" . $actor . "%';";*/
     echo $query . "<br>";
     $rs = $db->query($query);
 
@@ -94,7 +110,6 @@ else if ($identifier > 0) {
         $attributes_defined = true;
     }
 
-
     // ACTOR INFO DATA
     echo "<tr>";
     echo "<td>$sex</td>";
@@ -105,9 +120,10 @@ else if ($identifier > 0) {
         echo "<td>Still alive or date of death not known</td>";
     }
     echo "</tr>";
+    echo "</table>";
         
     echo "<h2>$fullName's Movies and Roles</h2>";
-        
+    
     $getInfoQuery = "SELECT mid, role FROM MovieActor WHERE aid=" . $identifier . ";";
     $rs = $db->query($getInfoQuery);
     

@@ -10,7 +10,6 @@ if ($db->connect_errno > 0)
 }
 
 echo "<h1>Add Actor - Movie Relation</h1>";
-echo "[movie title]...............[first name]................[last name]..................[role]<br>";
 $title = "";
 $first_name = "";
 $last_name = "";
@@ -27,13 +26,15 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 <form method="get" action="<?php echo
 htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <input type="text" name="title" value="">
-    <input type="text" name="first_name" value="">
-    <input type="text" name="last_name" value="">
-    <input type="text" name="role" value="">
+    Movie Title: <input type="text" name="title" value=""> <br>
+    First Name: <input type="text" name="first_name" value=""> <br>
+    Last Name: <input type="text" name="last_name" value=""> <br>
+    Role: <input type="text" name="role" value=""> <br>
     <input type="submit" name="submit" value="submit">
 </form>
-
+<br>
+We can change the name search to be similar to what we have in searches.
+<br>
 <?php
 echo "<br>";
 

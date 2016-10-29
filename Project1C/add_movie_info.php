@@ -10,7 +10,6 @@ if ($db->connect_errno > 0)
 }
 
 echo "<h1>Add Movie Info</h1>";
-echo "[title]...[year]...[rating]...[company]<br>";
 $title = "";
 $rating = "";
 $company = "";
@@ -25,11 +24,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 <form method="get" action="<?php echo
 htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <input type="text" name="title" value="">
-    <input type="number" name="year" value="">
-    <input type="text" name="rating" value="">
-    <input type="text" name="company" value="">
-    <input type="submit" name="submit" value="submit">
+    Movie Title: <input type="text" name="title" value=""> <br>
+    Year Released: <input type="number" name="year" value=""> <br>
+    Rating: <input type="text" name="rating" value=""> <br>
+    Company: <input type="text" name="company" value=""> <br>
+    <input type="submit" name="submit" value="submit"> <br>
 </form>
 
 <?php
