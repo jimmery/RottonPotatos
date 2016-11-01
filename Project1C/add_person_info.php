@@ -22,35 +22,62 @@ $last_name = "";
 $sex = "";
 $query = "";
 $dob = null;
-$dod = null;;
+$dod = null;
+$err_msg = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    $type = $_GET["type"];
+    if (isset($_GET["type"]))
+        $type = $_GET["type"];
+    else
+        $err_msg = $err_msg . "Select Actor or Director! <br>";
+
     $first_name = $_GET["first"];
+    if (strlen($first_name))
+        $err_msg = $err_msg . "No First Name given. <br>";
+
     $last_name =  $_GET["last"];
+    if (strlen($last_name))
+        $err_msg = $err_msg . "No Last Name given. <br>";
+  
     $sex = $_GET["sex"];
     $dob = $_GET["dob"];
     $dod = $_GET["dod"];
 }
 ?>
 
+<p><span class="error">* required field.</span></p>
 <form method="get" action="<?php echo
 htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    Type: <input type="radio" name="type" checked="checked" value="actor"> Actor
-    <input type="radio" name="type" value="director"> Director <br> <br>
-    First Name: <input type="text" name="first" value=""> <br>
-    Last Name: <input type="text" name="last" value=""> <br>
-    Sex: <input type="radio" name="sex" checked="checked" value="male"> Male <t>
+    <input type="radio" name="type" value="actor"> Actor
+    <input type="radio" name="type" value="director"> Director 
+        <span class="error">* </span><br> <br>
+    <b>First Name:</b> <input type="text" name="first" maxlength="20" value=""> 
+        <span class="error">* </span><br>
+    <b>Last Name:</b> <input type="text" name="last" maxlength="20" value=""> 
+        <span class="error">* </span><br>
+    <b>Sex:</b> <input type="radio" name="sex" maxlength="6" value="male"> Male 
     <input type="radio" name="sex" value="female"> Female <br>
-    Date of Birth: <input type="date" name="dob" value=""> <br>
-    Date of Death: <input type="date" name="dod" value=""> (leave empty, if not applicable)<br>
-    <input type="submit" name="submit" value="submit"> <br>
+    <b>Date of Birth:</b> <input type="date" name="dob" value=""> <br>
+    <b>Date of Death:</b> <input type="date" name="dod" value=""> (leave empty, if not applicable)<br>
+    <input type="submit" name="submit" value="Add Person!"> <br>
 </form>
 
 <?php
 echo "<br>";
 
-
+if (empty($_GET["submit"]))
+{
+    $go_home_url = "index.php";
+    echo "<a href=$go_home_url>Go Home. </a><br>";
+    return;
+}
+if (strlen($err_msg) > 0)
+{
+    echo $err_msg;
+    $go_home_url = "index.php";
+    echo "<a href=$go_home_url>Go Home. </a><br>";
+    return;
+}
 
 if (strlen($type) != 0) { echo "type: " . $type . "<br>"; }
 if (strlen($first_name) != 0) { echo "first name: " . $first_name . "<br>"; }
@@ -109,16 +136,9 @@ else if ( $type == "director" )
 
 echo "query: " . $query;
 
-if ((strlen($first_name) != 0) && (strlen($last_name) != 0)) {
-    //run the query to add the actor to the actor table
-    $db->query($query);  
-    //add the new actor's id to the maxpersonid table
-    $db->query("INSERT INTO MaxPersonID VALUES(" . $id . ");");
-}
-else
-{
-    echo "Invalid Input <br>";
-}
+$db->query($query);
+$db->query("INSERT INTO MaxPersonID VALUES(" . $id . ");");
+echo "New person added successfully! <br>";
 
 $result->free();
 $go_home_url = "index.php";

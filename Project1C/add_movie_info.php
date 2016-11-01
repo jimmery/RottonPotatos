@@ -18,31 +18,57 @@ echo "<h1>Add Movie Info</h1>";
 $title = "";
 $rating = "";
 $company = "";
+$err_msg = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $title = $_GET["title"];
+    if (strlen($title) <= 0)
+        $err_msg = $err_msg . "Movie Title is Missing. <br>";
+    
     $year = $_GET["year"];
+    if (strlen($year) <= 0)
+        $err_msg = $err_msg . "Year is Missing. <br>";
+
     $rating =  $_GET["rating"];
+    if (strlen($rating) <= 0)
+        $err_msg = $err_msg . "Rating is Missing. <br>";
+
     $company = $_GET["company"];
+    if (strlen($company) <= 0)
+        $err_msg = $err_msg . "Company is Missing. <br>";
 }
 ?>
 
+<p><span class="error">* required field.</span></p>
 <form method="get" action="<?php echo
 htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <b>Movie Title: </b><input type="text" name="title" value=""> <br>
-    <b>Year Released: </b><input type="number" name="year" value=""> <br>
-    <b>Rating: </b><input type="text" name="rating" value=""> <br>
-    <b>Company: </b><input type="text" name="company" value=""> <br>
+    <b>Movie Title: </b><input type="text" name="title" maxlength="100" value=""> 
+        <span class="error">* </span><br>
+    <b>Year Released: </b><input type="number" name="year" value=""> 
+        <span class="error">* </span><br>
+    <b>Rating: </b><input type="text" name="rating" maxlength="10" value=""> 
+        <span class="error">* </span><br>
+    <b>Company: </b><input type="text" name="company" maxlength="50" value=""> 
+        <span class="error">* </span><br>
     <input type="submit" name="submit" value="submit"> <br>
 </form>
 
 <?php
 echo "<br>";
 
-if (strlen($title) != 0) { echo "title " . $title . "<br>"; }
-if ($year != null) { echo "year: " . $year . "<br>"; }
-if (strlen($rating) != 0) { echo "rating: " . $rating . "<br>"; }
-if (strlen($company) != 0) { echo "company: " . $company . "<br>"; };
+if (empty($_GET["submit"]))
+{
+    $go_home_url = "index.php";
+    echo "<a href=$go_home_url>Go Home. </a><br>";
+    return; 
+}
+if (strlen($err_msg) > 0)
+{
+    echo $err_msg . "<br>";
+    $go_home_url = "index.php";
+    echo "<a href=$go_home_url>Go Home. </a><br>";
+    return; 
+}
 
 //ensure MaxPersonID table is up to date
 $maxMovieId = "SELECT MAX(id) AS maxID_M FROM Movie limit 1;";
@@ -69,21 +95,20 @@ else {
 }
 
 //create query to insert new value to actor table
-$query = "INSERT INTO Movie VALUES (" . $id . "," 
-        . $title . "," . $year . ","
-        . $rating . "," . $company . ");";
+$query = "INSERT INTO Movie VALUES (" . $id . ",'" 
+        . $title . "'," . $year . ",'"
+        . $rating . "','" . $company . "');";
 
 echo "query: " . $query . "<br>";
 
-//must at least have a title
-if (strlen($title) != 0) {
-    echo "title: " . $title . "<br>";
-    //run the query to add the actor to the actor table
-    $db->query($query);
+echo "title: " . $title . "<br>";
+//run the query to add the actor to the actor table
+$db->query($query);
 
-    //add the new actor's id to the maxpersonid table
-    $db->query("INSERT INTO MaxMovieID VALUES(" . $id . ");");
-}
+//add the new actor's id to the maxpersonid table
+$db->query("INSERT INTO MaxMovieID VALUES(" . $id . ");");
+
+echo "Movie Added Successfully with ID = $id";
 
 $result->free();
 $go_home_url = "index.php";

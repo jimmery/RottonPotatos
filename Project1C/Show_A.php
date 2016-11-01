@@ -18,7 +18,8 @@ $identifier = -1;
 if ($_SERVER["REQUEST_METHOD"] == "GET")
 {
     $actor = $_GET["actor"];
-    $identifier = $_GET["identifier"];
+    if (isset($_GET["identifier"]))
+        $identifier = $_GET["identifier"];
 }
 ?>
 
@@ -30,31 +31,39 @@ htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 </form>
                                
 <?php
-if ($identifier == null || $identifier < 0) {
+if (empty($_GET["identifier"]) && strlen($actor) > 0) {
     echo "<br>";
     
     echo "<h2> Actors with this Name </h2>";
-    /*$query = "SELECT * FROM Actor WHERE first = \"" . $actor . "\"" .
-      " OR last = \"" . $actor . "\";";*/
     $words = explode(" ", $actor);
     $size = count($words);
-    $query = "SELECT * FROM Actor WHERE first LIKE '" . $words[0] . "%'";
+    // $query = "SELECT * FROM Actor WHERE first LIKE '" . $words[0] . "%'";
 
-    if ($size == 1)
+    // if ($size == 1)
+    // {
+    //     $query = $query . " OR last LIKE '" . $words[0] . "%'";
+    // }
+    // $count = 1;
+    // while ($count < $size)
+    // {
+    //     $query = $query . " AND last LIKE '" . $words[$count] . "%'";
+    //     $count = $count + 1;
+    // }
+
+    // $query = $query . ";";
+    // echo $query . "<br>";
+    // $rs = $db->query($query);
+
+    $query = "SELECT * FROM Actor WHERE ";
+    for($i=0; $i < $size; $i=$i+1)
     {
-        $query = $query . " OR last LIKE '" . $words[0] . "%'";
-    }
-    $count = 1;
-    while ($count < $size)
-    {
-        $query = $query . " AND last LIKE '" . $words[$count] . "%'";
-        $count = $count + 1;
+        $query = $query . "(first LIKE '%$words[$i]%' OR last LIKE '%$words[$i]%')";
+        if($i < $size-1)
+            $query = $query . " AND ";
+        else
+            $query = $query . " ORDER BY last;";
     }
 
-    $query = $query . ";";
-    /*$query = "SELECT * FROM Actor WHERE first LIKE '%" . $actor . "%'" .
-      " OR last LIKE '%" . $actor . "%';";*/
-    echo $query . "<br>";
     $rs = $db->query($query);
 
     $attributes_defined = FALSE;
@@ -74,7 +83,7 @@ if ($identifier == null || $identifier < 0) {
         $name = $row["first"] . " " . $row["last"];
         $dob = $row["dob"];
         $id = $row["id"];
-        $actorURL = "http://localhost:1438/~cs143/RottonPotatos/Project1C/Show_A.php?identifier=" . $id;
+        $actorURL = "Show_A.php?identifier=" . $id;
         echo "<td>$id</td>";
         echo "<td><a href=$actorURL>$name</td>";
         echo "<td><a href=$actorURL>$dob</td>";

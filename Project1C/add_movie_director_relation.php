@@ -19,16 +19,18 @@ echo "<h1>Add Movie - Director Relation</h1>";
 $title = "";
 $first_name = "";
 $last_name = "";
+$err_msg = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    if (isset($_GET["title"]))
-        $title = $_GET["title"];
-    else
-    {
-        
-    }
+    $title = $_GET["title"];
+    if (strlen($title) <= 0)
+        $err_msg = $err_msg . "No Title Provided. <br>";
     $first_name = $_GET["first_name"];
+    if (strlen($first_name) <= 0)
+        $err_msg = $err_msg . "No First Name Provided. <br>";
     $last_name = $_GET["last_name"];    
+    if (strlen($last_name) <= 0)
+        $err_msg = $err_msg . "No Last Name Provided. <br>";
 }
 ?>
 
@@ -48,6 +50,20 @@ Similarly, we can do the search on name.
 <br>
 <?php
 echo "<br>";
+
+if (empty($_GET["submit"]))
+{
+    $go_home_url = "index.php";
+    echo "<a href=$go_home_url>Go Home. </a><br>";
+    return;
+}
+if (strlen($err_msg) > 0)
+{
+    echo $err_msg . "<br>";
+    $go_home_url = "index.php";
+    echo "<a href=$go_home_url>Go Home. </a><br>";
+    return;
+}
 
 if (strlen($title) != 0) { echo "title: " . $title . "<br>"; }
 if (strlen($first_name) != 0) { echo "first name: " . $first_name . "<br>"; }

@@ -25,7 +25,7 @@ $err_msg = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") 
 {
-    if ( empty( $_GET["movieID"] ))
+    if (empty( $_GET["movieID"]))
     {
         echo "No movie selected. <br>";
         echo "Please select a movie to add a comment. ";
@@ -87,7 +87,7 @@ htmlspecialchars($_SERVER["PHP_SELF"]);?>">
     <?php echo "<b> Movie ID: </b><input type=\"text\" name=\"movieID\" size=8
                         value=\"$movieID\" readonly> <br><br>";?>
 
-    <b> Your Name: </b><input type="text" name="name" size=50
+    <b> Your Name: </b><input type="text" name="name" size=50 maxlength="20"
                         placeholder="up to 20 characters" value=""> 
                         <span class="error">* </span><br><br>
     <b> Rating: </b><input type="radio" name="rating" value="1"> 1 &nbsp
@@ -96,7 +96,7 @@ htmlspecialchars($_SERVER["PHP_SELF"]);?>">
     <input type="radio" name="rating" value="4"> 4 &nbsp
     <input type="radio" name="rating" value="5"> 5 &nbsp
     <span class="error">* </span><br><br>
-    <b> Comment: </b><br><TEXTAREA name="comment" ROWS=8 COLS=50 
+    <b> Comment: </b><br><TEXTAREA name="comment" ROWS=8 COLS=50 maxlength="500"
             placeholder="comment up to 500 characters"></TEXTAREA> <br>
     <input type="submit" name="submit" value="Submit Rating"> <br>
 </form>
@@ -104,10 +104,19 @@ htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 <?php
 
 echo "<br>";
-if ( strlen($submit) == 0 )
+if ( strlen($submit) == 0 ) {
+    $return_url = "show_M.php?identifier=$movieID";
+    echo "Changed your mind? <a href=$return_url>Back to movie information</a><br>";
+    $go_home_url = "index.php";
+    echo "<a href=$go_home_url>Go Home. </a><br>";
     return;
+}
 if(strlen($err_msg) > 0) {
-    echo $err_msg . "<br>";
+    echo $err_msg . "<br><br>";
+    $return_url = "show_M.php?identifier=$movieID";
+    echo "Changed your mind? <a href=$return_url>Back to movie information</a><br>";
+    $go_home_url = "index.php";
+    echo "<a href=$go_home_url>Go Home. </a><br>";
     return;
 }
 
@@ -127,8 +136,8 @@ $result->free();
 
 $db->query($rating_q);
 
-$return_url = "show_M.php?identifier=$movieID";
 echo "Rating Inserted!<br>";
+$return_url = "show_M.php?identifier=$movieID";
 echo "<a href=$return_url>Go back?</a><br>";
 $go_home_url = "index.php";
 echo "<a href=$go_home_url>Go Home. </a><br>";

@@ -19,13 +19,32 @@ $title = "";
 $first_name = "";
 $last_name = "";
 $role = "";
+$submit = "";
+$err_msg = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    $title = $_GET["title"];
-    $first_name = $_GET["first_name"];
-    $last_name = $_GET["last_name"];
-    $role = $_GET["role"];
+    if (empty($_GET["title"]) && strlen($submit) > 0)
+        $err_msg = $err_msg . "Title is missing. <br>";
+    else {
+        $title = $_GET["title"];    
+    }
+        
+    if (empty($_GET["first_name"]) && strlen($submit) > 0)
+        $err_msg = $err_msg . "First name is missing. <br>";
+    else
+        $first_name = $_GET["first_name"];
+
+    if (empty($_GET["last_name"]) && strlen($submit) > 0)
+        $err_msg = $err_msg . "Last name is missing. <br>";
+    else
+        $last_name = $_GET["last_name"];
     
+    if (empty($_GET["role"]) && strlen($submit) > 0)
+        $err_msg = $err_msg . "Role is missing. <br>";
+    else
+        $role = $_GET["role"];
+
+    $submit = $_GET["submit"];
 }
 ?>
 
@@ -49,26 +68,24 @@ We can change the name search to be similar to what we have in searches.
 <?php
 echo "<br>";
 
-if (strlen($title) != 0) { echo "title: " . $title . "<br>"; }
-if (strlen($first_name) != 0) { echo "first name: " . $first_name . "<br>"; }
-if (strlen($last_name) != 0) { echo "last name: " .  $last_name . "<br>"; }
-if (strlen($role) != 0) { echo "role: " . $role . "<br>"; }
+if (empty($_GET["submit"])) {
+    $go_home_url = "index.php";
+    echo "<a href=$go_home_url>Go Home. </a><br>";
+    return;
+}
+if (strlen($err_msg) > 0) {
+    echo $err_msg;
+    return; 
+}
 
 //TODO: SEPARATE INPUT BY ' '
 
 $query_A = "SELECT * FROM Actor WHERE first LIKE '%" . $first_name . "%'" . 
         " AND last LIKE '%" . $last_name . "%' limit 1;";
-echo "<br>";
-echo "actor query = " . $query_A . "<br>";
+//echo "<br>";
+//echo "actor query = " . $query_A . "<br>";
 
 $actor = $db->query($query_A);
-
-$query_M = "SELECT * "
-        . "FROM Movie WHERE title LIKE '%" 
-        . $title 
-        . "%' limit 1;";
-
-echo "movie query = " . $query_M . "<br>";
 
 $get_aid = "SELECT id AS aid FROM Actor WHERE last = '" 
             . $last_name
@@ -79,11 +96,11 @@ $result = $db->query($get_aid);
 $value = $result->fetch_assoc();
 $aid = $value["aid"];
 $result->free();
-echo "get actor id query = " . $get_aid . "<br>";
+//echo "get actor id query = " . $get_aid . "<br>";
 $get_mid = "SELECT id AS mid FROM Movie WHERE title='" 
             . $title
             . "' limit 1;";
-echo "get movie id query = " . $get_mid . "<br>";
+//echo "get movie id query = " . $get_mid . "<br>";
 $result = $db->query($get_mid);
 $value = $result->fetch_assoc();
 $mid = $value["mid"];
@@ -92,7 +109,7 @@ $insert_AM = "INSERT INTO MovieActor VALUES("
         . $mid 
         . "," . $aid 
         . ",'" . $role . "');";
-echo "insert into actor-movie relation query: " . $insert_AM . "<br>";
+//echo "insert into actor-movie relation query: " . $insert_AM . "<br>";
 
 $db->query($insert_AM);
 

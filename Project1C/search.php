@@ -99,7 +99,7 @@ if ($size > 0 && strlen($words[0]) > 0)
         if($i < $size-1)
             $query = $query . " AND ";
         else
-            $query = $query . " ORDER BY year;";
+            $query = $query . " ORDER BY title;";
     }
 
     $rs = $db->query($query);

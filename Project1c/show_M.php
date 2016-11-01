@@ -35,10 +35,23 @@ htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 if ($identifier < 0 && strlen($movie) > 0) {
 
     echo "<br>";
-    echo "<h2> Matching Movies found</h2>";
+    echo "<h2> Matching Movies Found</h2>";
     /*$query = "SELECT * FROM Actor WHERE first = \"" . $actor . "\"" .
       " OR last = \"" . $actor . "\";";*/
-    $query = "SELECT * FROM Movie WHERE title LIKE '%" . $movie . "%'" . " ORDER BY title;";
+    //$query = "SELECT * FROM Movie WHERE title LIKE '%" . $search . "%';";
+
+    $words = explode(" ", $movie);
+    $size = count($words);
+
+    $query = "SELECT * FROM Movie WHERE ";
+    for($i=0; $i < $size; $i=$i+1)
+    {
+        $query = $query . "title LIKE '%$words[$i]%'";
+        if($i < $size-1)
+            $query = $query . " AND ";
+        else
+            $query = $query . " ORDER BY title;";
+    }
     echo $query . "<br>";
     $rs = $db->query($query);
 
@@ -66,9 +79,9 @@ if ($identifier < 0 && strlen($movie) > 0) {
         echo "<td>$year</td>";
         echo "</tr>";
     }
-    echo "</table>";
+    echo "</table><br><br>";
 
-    print 'Total results: ' . $rs->num_rows;
+    //print 'Total results: ' . $rs->num_rows;
     $rs->free();
 }
 
