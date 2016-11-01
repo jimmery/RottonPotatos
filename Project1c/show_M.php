@@ -17,8 +17,10 @@ $query = "";
 $identifier = -1;
 if ($_SERVER["REQUEST_METHOD"] == "GET")
 {
-    $movie = $_GET["movie"];
-    $identifier = $_GET["identifier"];
+    if (isset($_GET["movie"]))
+        $movie = $_GET["movie"];
+    if (isset($_GET["identifier"]))
+        $identifier = $_GET["identifier"];
 }
 ?>
 
@@ -30,7 +32,7 @@ htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 </form>
                                
 <?php
-if ($identifier == null || $identifier < 0) {
+if ($identifier < 0 && strlen($movie) > 0) {
 
     echo "<br>";
     echo "<h2> Matching Movies found</h2>";
@@ -58,7 +60,7 @@ if ($identifier == null || $identifier < 0) {
         $year = $row["year"];
         $rating = $row["rating"];
         $id = $row["id"];
-        $movieURL = "http://localhost:1438/~cs143/RottonPotatos/Project1C/Show_M.php?identifier=" . $id;
+        $movieURL = "Show_M.php?identifier=" . $id;
         echo "<td><a href=$movieURL>$title</td>";
         echo "<td>$rating</td>";
         echo "<td>$year</td>";
@@ -129,12 +131,61 @@ else if ($identifier > 0) {
         $first = $actorRow["first"];
         $last = $actorRow["last"];
         $actorName = $first . " " . $last;$actorId;
-        $actorURL = "http://localhost:1438/~cs143/RottonPotatos/Project1C/Show_A.php?identifier=" . $actorId;
+        $actorURL = "Show_A.php?identifier=" . $actorId;
         //print to table
         echo "<td><a href=$actorURL>$actorName</td>";
         echo "<td>$role</td>";
         echo "</tr>";          
     }
-    echo "</table>";
+    $rs->free();
+    echo "</table><br><br>";
+
+    $review_query = "SELECT AVG(rating) AS avg_rating FROM Review WHERE mid=$identifier;";
+    $rs = $db->query($review_query);
+    $row = $rs->fetch_assoc();
+    $average_rating = $row["avg_rating"];
+    if ( $average_rating != NULL ) {
+        echo "<b> Average User Rating: </b>$average_rating out of 5<br><br>";
+        $rs->free();
+
+        $review_query = "SELECT name, time, comment FROM Review WHERE mid=$identifier";
+        $rs = $db->query($review_query);
+        $attributes_defined = FALSE;
+        echo "<table border=\"1\" cellspacing=\"2\" cellpadding=\"8\">";
+        while ($row = $rs->fetch_assoc()) {
+            if (!$attributes_defined)
+            {
+                echo "<tr>";
+                echo "<th>User</th>";
+                echo "<th>Time</th>";
+                echo "<th>Comment</th>";
+                echo "</tr>";
+                $attributes_defined = TRUE;
+            }
+            echo "<tr>";
+            $role = $row["role"];
+            //get actor info from aid
+            $review_name = $row["name"];
+            $review_time = $row["time"];
+            $review_cmnt = $row["comment"];
+
+            echo "<td>$review_name</td>";
+            echo "<td>$review_time</td>";
+            echo "<td>$review_cmnt</td>";
+        }
+        $rs->free();
+        echo "</table><br>";
+    }
+    else {
+        echo "There are no reviews yet. <br>";
+    }
+    $review_url = "add_comment.php?movieID=$identifier";
+    echo "<a href=$review_url>Add a Review? </a><br>";
 }
+
+$go_home_url = "index.php";
+echo "<a href=$go_home_url>Go Home. </a><br>";
 ?>
+
+</body>
+</html>

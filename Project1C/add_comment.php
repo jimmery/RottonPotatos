@@ -122,8 +122,17 @@ $rating_q = "INSERT INTO Review VALUES ( '$name',
                                          $movieID, 
                                          $rating, 
                                          '$comment' );"; 
-echo $rating_q;
+//echo $rating_q;
 $result->free();
 
 $db->query($rating_q);
+
+$return_url = "show_M.php?identifier=$movieID";
+echo "Rating Inserted!<br>";
+echo "<a href=$return_url>Go back?</a><br>";
+$go_home_url = "index.php";
+echo "<a href=$go_home_url>Go Home. </a><br>";
 ?>
+
+</body>
+</html>

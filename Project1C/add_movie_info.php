@@ -1,5 +1,10 @@
 <!DOCTYPE HTML>
 <html>
+<head>
+<style>
+.error {color: #FF0000;}
+</style>
+</head>
 <body>
 <?php
 $db = new mysqli('localhost', 'cs143', '', 'TEST');
@@ -24,10 +29,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 <form method="get" action="<?php echo
 htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    Movie Title: <input type="text" name="title" value=""> <br>
-    Year Released: <input type="number" name="year" value=""> <br>
-    Rating: <input type="text" name="rating" value=""> <br>
-    Company: <input type="text" name="company" value=""> <br>
+    <b>Movie Title: </b><input type="text" name="title" value=""> <br>
+    <b>Year Released: </b><input type="number" name="year" value=""> <br>
+    <b>Rating: </b><input type="text" name="rating" value=""> <br>
+    <b>Company: </b><input type="text" name="company" value=""> <br>
     <input type="submit" name="submit" value="submit"> <br>
 </form>
 
@@ -81,4 +86,9 @@ if (strlen($title) != 0) {
 }
 
 $result->free();
+$go_home_url = "index.php";
+echo "<a href=$go_home_url>Go Home. </a><br>";
 ?>
+
+</body>
+</html>

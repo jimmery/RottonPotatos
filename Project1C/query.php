@@ -56,4 +56,9 @@ echo "</table>";
 
 print 'Total results: ' . $rs->num_rows;
 $rs->free();
+$go_home_url = "index.php";
+echo "<a href=$go_home_url>Go Home. </a><br>";
 ?>
+
+</body>
+</html>

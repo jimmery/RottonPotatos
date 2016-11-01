@@ -32,13 +32,11 @@ htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 echo "<br>";
 
 $size = count($words);
-
-//var_dump($words);
 echo "<br>";
 
 if ($size > 0 && strlen($words[0]) > 0)
 {
-    $query = "SELECT * FROM Actor WHERE first LIKE '" . $words[0] . "%'";
+    /*$query = "SELECT * FROM Actor WHERE first LIKE '" . $words[0] . "%'";
 
     if ($size == 1)
     {
@@ -51,10 +49,20 @@ if ($size > 0 && strlen($words[0]) > 0)
         $count = $count + 1;
     }
 
-    $query = $query . ";";
+    $query = $query . ";";*/
+
+    $query = "SELECT * FROM Actor WHERE ";
+    for($i=0; $i < $size; $i=$i+1)
+    {
+        $query = $query . "(first LIKE '%$words[$i]%' OR last LIKE '%$words[$i]%')";
+        if($i < $size-1)
+            $query = $query . " AND ";
+        else
+            $query = $query . " ORDER BY last;";
+    }
 
     $rs = $db->query($query);
-    var_dump($rs);
+    //var_dump($rs);
     $attributes_defined = FALSE;
     while ($row = $rs->fetch_assoc())
     {
@@ -83,6 +91,17 @@ if ($size > 0 && strlen($words[0]) > 0)
     $rs->free();
     
     $query = "SELECT * FROM Movie WHERE title LIKE '%" . $search . "%';";
+
+    $query = "SELECT * FROM Movie WHERE ";
+    for($i=0; $i < $size; $i=$i+1)
+    {
+        $query = $query . "title LIKE '%$words[$i]%'";
+        if($i < $size-1)
+            $query = $query . " AND ";
+        else
+            $query = $query . " ORDER BY year;";
+    }
+
     $rs = $db->query($query);
 
     $attributes_defined = FALSE;
@@ -112,4 +131,9 @@ if ($size > 0 && strlen($words[0]) > 0)
     //print 'Total results: ' . $rs->num_rows;
     $rs->free();
 }
+$go_home_url = "index.php";
+echo "<a href=$go_home_url>Go Home. </a><br>";
 ?>
+
+</body>
+</html>

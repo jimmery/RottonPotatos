@@ -1,5 +1,10 @@
 <!DOCTYPE HTML>
 <html>
+<head>
+<style>
+.error {color: #FF0000;}
+</style>
+</head>
 <body>
 <?php
 $db = new mysqli('localhost', 'cs143', '', 'TEST');
@@ -24,13 +29,19 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 }
 ?>
 
+<p><span class="error">* required field.</span></p>
 <form method="get" action="<?php echo
 htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    Movie Title: <input type="text" name="title" value=""> <br>
-    First Name: <input type="text" name="first_name" value=""> <br>
-    Last Name: <input type="text" name="last_name" value=""> <br>
-    Role: <input type="text" name="role" value=""> <br>
-    <input type="submit" name="submit" value="submit">
+
+    <b>Movie Title: </b><input type="text" name="title" value="">
+        <span class="error">* </span> <br>
+    <b>First Name: </b><input type="text" name="first_name" value=""> 
+        <span class="error">* </span><br>
+    <b>Last Name: </b><input type="text" name="last_name" value="">
+        <span class="error">* </span> <br>
+    <b>Role: </b><input type="text" name="role" value=""> 
+        <span class="error">* </span><br>
+    <input type="submit" name="submit" value="Submit"> <br>
 </form>
 <br>
 We can change the name search to be similar to what we have in searches.
@@ -85,8 +96,6 @@ echo "insert into actor-movie relation query: " . $insert_AM . "<br>";
 
 $db->query($insert_AM);
 
-
-
 // FOR REFERENCE:
 //====================================================================
 // CREATE TABLE MovieActor(
@@ -96,3 +105,9 @@ $db->query($insert_AM);
 //	FOREIGN KEY (mid) REFERENCES Movie(id) ON UPDATE CASCADE ON DELETE CASCADE,
 //	FOREIGN KEY (aid) REFERENCES Actor(id) ON UPDATE CASCADE ON DELETE CASCADE
 // );
+$go_home_url = "index.php";
+echo "<a href=$go_home_url>Go Home. </a><br>";
+?>
+
+</body>
+</html>

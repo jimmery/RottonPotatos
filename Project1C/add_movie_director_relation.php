@@ -1,5 +1,10 @@
 <!DOCTYPE HTML>
 <html>
+<head>
+<style>
+.error {color: #FF0000;}
+</style>
+</head>
 <body>
 <?php
 $db = new mysqli('localhost', 'cs143', '', 'TEST');
@@ -16,18 +21,28 @@ $first_name = "";
 $last_name = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    $title = $_GET["title"];
+    if (isset($_GET["title"]))
+        $title = $_GET["title"];
+    else
+    {
+        
+    }
     $first_name = $_GET["first_name"];
     $last_name = $_GET["last_name"];    
 }
 ?>
 
+<p><span class="error">* required field.</span></p>
 <form method="get" action="<?php echo
 htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    Movie Title: <input type="text" name="title" value=""> <br>
-    First Name: <input type="text" name="first_name" value=""> <br>
-    Last Name: <input type="text" name="last_name" value=""> <br>
-    <input type="submit" name="submit" value="submit"> <br>
+
+    <b>Movie Title: </b><input type="text" name="title" value="">
+        <span class="error">* </span> <br>
+    <b>First Name: </b><input type="text" name="first_name" value=""> 
+        <span class="error">* </span><br>
+    <b>Last Name: </b><input type="text" name="last_name" value="">
+        <span class="error">* </span> <br>
+    <input type="submit" name="submit" value="Submit"> <br>
 </form>
 Similarly, we can do the search on name.
 <br>
@@ -89,3 +104,10 @@ $db->query($insert_DM);
 //	FOREIGN KEY mid REFERENCES Movie(id) ON UPDATE CASCADE ON DELETE CASCADE,
 //	FOREIGN KEY did REFERENCES Director(id) ON UPDATE CASCADE ON DELETE CASCADE
 // );
+
+$go_home_url = "index.php";
+echo "<a href=$go_home_url>Go Home. </a><br>";
+?>
+
+</body>
+</html>

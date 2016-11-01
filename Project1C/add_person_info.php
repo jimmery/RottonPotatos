@@ -1,5 +1,10 @@
 <!DOCTYPE HTML>
 <html>
+<head>
+<style>
+.error {color: #FF0000;}
+</style>
+</head>
 <body>
 <?php
 $db = new mysqli('localhost', 'cs143', '', 'TEST');
@@ -116,4 +121,10 @@ else
 }
 
 $result->free();
+$go_home_url = "index.php";
+echo "<a href=$go_home_url>Go Home. </a><br>";
 ?>
+
+</body>
+</html>
+
