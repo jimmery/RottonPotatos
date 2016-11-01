@@ -45,6 +45,8 @@ htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 <?php
 echo "<br>";
 
+
+
 if (strlen($type) != 0) { echo "type: " . $type . "<br>"; }
 if (strlen($first_name) != 0) { echo "first name: " . $first_name . "<br>"; }
 if (strlen($last_name) != 0) { echo "last name: " . $last_name . "<br>"; }
@@ -107,6 +109,10 @@ if ((strlen($first_name) != 0) && (strlen($last_name) != 0)) {
     $db->query($query);  
     //add the new actor's id to the maxpersonid table
     $db->query("INSERT INTO MaxPersonID VALUES(" . $id . ");");
+}
+else
+{
+    echo "Invalid Input <br>";
 }
 
 $result->free();
