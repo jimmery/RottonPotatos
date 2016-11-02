@@ -85,7 +85,7 @@ if (empty($_GET["identifier"]) && strlen($director) > 0) {
         $dob = $row["dob"];
         $dod = $row["dod"];
         $id = $row["id"];
-        echo $name . " " . $id . "<br>";
+        //echo $name . " " . $id . "<br>";
         $directorURL = "Show_D.php?identifier=" . $id;
         echo "<td>$id</td>";
         echo "<td><a href=$directorURL>$name</td>";
@@ -185,6 +185,9 @@ else if ($identifier > 0) {
         echo "</tr>";          
     }
     echo "</table> <br>";
+
+    $add_movie_url = "add_movie_director_relation.php?first_name=$first&last_name=$last";
+    echo "Are we missing a movie? <a href=$add_movie_url> Add movie here! </a><br><br>";
 }
 $go_home_url = "index.php";
 echo "<a href=$go_home_url>Go Home. </a><br>";

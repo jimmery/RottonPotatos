@@ -176,21 +176,16 @@ else if ($identifier > 0) {
     $url_title = str_replace (" ", "+", $title);
     $add_actor_url = "add_movie_actor_relation.php?title=$url_title";
     
-    echo "Are we missing an actor? <a href=$add_actor_url> Add actor here! </a><br>";
+    echo "Are we missing an actor? <a href=$add_actor_url> Add actor here! </a><br><br>";
 
+
+    /* DIRECTOR TABLE HERE. */
     echo "<h2>Directors of \"$title\"</h2>";
     $getDirectorsQuery = "SELECT * FROM MovieDirector WHERE mid=" . $identifier . ";";
     $rs = $db->query($getDirectorsQuery);
     $attributes_defined = FALSE;
     echo "<table border=\"1\" cellspacing=\"2\" cellpadding=\"8\">";
     while ($row = $rs->fetch_assoc()) {
-//        if (!$attributes_defined)
-//        {
-//            echo "<tr>";
-//            echo "<th>Directors</th>";
-//            echo "</tr>";
-//            $attributes_defined = TRUE;
-//        }
         echo "<tr>";
         $did = $row["did"];
         $directorNameQuery = "SELECT * FROM Director WHERE id=" . $did . ";";
@@ -210,14 +205,20 @@ else if ($identifier > 0) {
         echo "</tr>";          
     }
     $rs->free();
-    echo "</table><br><br>"; 
+    echo "</table><br>";
 
+    $add_director_url = "add_movie_director_relation.php?title=$url_title";
+    
+    echo "Are we missing a director? <a href=$add_director_url> Add director here! </a><br><br>";
+
+    /* REVIEW TABLE HERE. */
     $review_query = "SELECT AVG(rating) AS avg_rating FROM Review WHERE mid=$identifier;";
     $rs = $db->query($review_query);
     $row = $rs->fetch_assoc();
     $average_rating = $row["avg_rating"];
     if ( $average_rating != NULL ) {
-        echo "<b> Average User Rating: </b>$average_rating out of 5<br><br>";
+        echo "<h2>User Reviews of '$title'</h2>";
+        echo "<b>Average User Rating: </b>$average_rating out of 5<br><br>";
         $rs->free();
 
         $review_query = "SELECT * FROM Review WHERE mid=$identifier";
@@ -243,7 +244,6 @@ else if ($identifier > 0) {
             $review_cmnt = $row["comment"];
             $review_rating = $row["rating"];
             
-
             echo "<td>$review_name</td>";
             echo "<td>$review_time</td>";
             echo "<td>$review_rating</td>";

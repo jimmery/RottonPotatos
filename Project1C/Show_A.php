@@ -172,7 +172,7 @@ else if ($identifier > 0) {
 //        echo "genre: " . $movieGenre . "<br>";
         
         
-        $movieURL = "http://localhost:1438/~cs143/RottonPotatos/Project1C/Show_M.php?identifier=" . $movieId;
+        $movieURL = "Show_M.php?identifier=" . $movieId;
         
         //print to table
         echo "<td>$role</td>";
@@ -184,6 +184,9 @@ else if ($identifier > 0) {
         echo "</tr>";          
     }
     echo "</table> <br>";
+
+    $add_movie_url = "add_movie_actor_relation.php?first_name=$first&last_name=$last";
+    echo "Are we missing a movie? <a href=$add_movie_url> Add movie here! </a><br><br>";
 }
 $go_home_url = "index.php";
 echo "<a href=$go_home_url>Go Home. </a><br>";

@@ -37,14 +37,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 <p><span class="error">* required field.</span></p>
 <form method="get" action="<?php echo
 htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-
-    <b>Movie Title: </b><input type="text" name="title" value="">
-        <span class="error">* </span> <br>
-    <b>First Name: </b><input type="text" name="first_name" value=""> 
-        <span class="error">* </span><br>
-    <b>Last Name: </b><input type="text" name="last_name" value="">
-        <span class="error">* </span> <br>
-    <input type="submit" name="submit" value="Submit"> <br>
+    <?php
+    echo "
+    <b>Movie Title: </b><input type=\"text\" name=\"title\" value=\"$title\">
+        <span class=\"error\">* </span> <br>
+    <b>First Name: </b><input type=\"text\" name=\"first_name\" value=\"$first_name\"> 
+        <span class=\"error\">* </span><br>
+    <b>Last Name: </b><input type=\"text\" name=\"last_name\" value=\"$last_name\">
+        <span class=\"error\">* </span> <br>
+    <input type=\"submit\" name=\"submit\" value=\"Submit\"> <br>";
+    ?>
 </form>
 <!--Similarly, we can do the search on name.-->
 <br>
@@ -110,6 +112,8 @@ $insert_DM = "INSERT INTO MovieDirector VALUES("
 //echo "insert into director-movie relation query: " . $insert_DM . "<br>";
 
 $db->query($insert_DM);
+
+echo "Movie-Director Relation Added!<br>";
 
 
 // FOR REFERENCE:
