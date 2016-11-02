@@ -171,7 +171,13 @@ else if ($identifier > 0) {
         echo "</tr>";          
     }
     $rs->free();
-    echo "</table><br><br>";
+    echo "</table><br>";
+
+    $url_title = str_replace (" ", "+", $title);
+    $add_actor_url = "add_movie_actor_relation.php?title=$url_title";
+    
+    echo "Are we missing an actor? <a href=$add_actor_url> Add actor here! </a><br>";
+
 
     $review_query = "SELECT AVG(rating) AS avg_rating FROM Review WHERE mid=$identifier;";
     $rs = $db->query($review_query);

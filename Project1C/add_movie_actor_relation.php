@@ -23,26 +23,21 @@ $submit = "";
 $err_msg = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    if (empty($_GET["title"]) && strlen($submit) > 0)
+    $title = $_GET["title"];  
+    if (strlen($title) <= 0)
         $err_msg = $err_msg . "Title is missing. <br>";
-    else {
-        $title = $_GET["title"];    
-    }
-        
-    if (empty($_GET["first_name"]) && strlen($submit) > 0)
-        $err_msg = $err_msg . "First name is missing. <br>";
-    else
-        $first_name = $_GET["first_name"];
 
-    if (empty($_GET["last_name"]) && strlen($submit) > 0)
+    $first_name = $_GET["first_name"];
+    if (strlen($first_name) <= 0)
+        $err_msg = $err_msg . "First name is missing. <br>";
+        
+    $last_name = $_GET["last_name"];
+    if (strlen($last_name) <= 0)
         $err_msg = $err_msg . "Last name is missing. <br>";
-    else
-        $last_name = $_GET["last_name"];
     
-    if (empty($_GET["role"]) && strlen($submit) > 0)
+    $role = $_GET["role"];
+    if (strlen($role) <= 0)
         $err_msg = $err_msg . "Role is missing. <br>";
-    else
-        $role = $_GET["role"];
 
     $submit = $_GET["submit"];
 }
@@ -51,16 +46,18 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 <p><span class="error">* required field.</span></p>
 <form method="get" action="<?php echo
 htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-
-    <b>Movie Title: </b><input type="text" name="title" value="">
-        <span class="error">* </span> <br>
-    <b>First Name: </b><input type="text" name="first_name" value=""> 
-        <span class="error">* </span><br>
-    <b>Last Name: </b><input type="text" name="last_name" value="">
-        <span class="error">* </span> <br>
-    <b>Role: </b><input type="text" name="role" value=""> 
-        <span class="error">* </span><br>
-    <input type="submit" name="submit" value="Submit"> <br>
+    <?php
+    echo "
+    <b>Movie Title: </b><input type=\"text\" name=\"title\" value=\"$title\">
+        <span class=\"error\">* </span> <br>
+    <b>First Name: </b><input type=\"text\" name=\"first_name\" value=\"$first_name\"> 
+        <span class=\"error\">* </span><br>
+    <b>Last Name: </b><input type=\"text\" name=\"last_name\" value=\"$last_name\">
+        <span class=\"error\">* </span> <br>
+    <b>Role: </b><input type=\"text\" name=\"role\" value=\"\"> 
+        <span class=\"error\">* </span><br>
+    <input type=\"submit\" name=\"submit\" value=\"Submit\"> <br>";
+    ?>
 </form>
 <br>
 <!--We can change the name search to be similar to what we have in searches.-->
@@ -75,6 +72,8 @@ if (empty($_GET["submit"])) {
 }
 if (strlen($err_msg) > 0) {
     echo $err_msg;
+    $go_home_url = "index.php";
+    echo "<a href=$go_home_url>Go Home. </a><br>";
     return; 
 }
 
