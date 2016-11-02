@@ -138,7 +138,7 @@ else if ($identifier > 0) {
     echo "</table>";
     //echo "<br><br>";
     
-    echo "<h2>Actors in $title</h2>";
+    echo "<h2>Actors in \"$title\"</h2>";
         
     $getInfoQuery = "SELECT aid, role FROM MovieActor WHERE mid=" . $identifier . ";";
     $rs = $db->query($getInfoQuery);
@@ -172,6 +172,41 @@ else if ($identifier > 0) {
     }
     $rs->free();
     echo "</table><br><br>";
+    
+    
+    echo "<h2>Directors of \"$title\"</h2>";
+    $getDirectorsQuery = "SELECT * FROM MovieDirector WHERE mid=" . $identifier . ";";
+    $rs = $db->query($getDirectorsQuery);
+    $attributes_defined = FALSE;
+    echo "<table border=\"1\" cellspacing=\"2\" cellpadding=\"8\">";
+    while ($row = $rs->fetch_assoc()) {
+//        if (!$attributes_defined)
+//        {
+//            echo "<tr>";
+//            echo "<th>Directors</th>";
+//            echo "</tr>";
+//            $attributes_defined = TRUE;
+//        }
+        echo "<tr>";
+        $did = $row["did"];
+        $directorNameQuery = "SELECT * FROM Director WHERE id=" . $did . ";";
+        $director_rs = $db->query($directorNameQuery);
+        $d_row = $director_rs->fetch_assoc();
+        $director_rs->free();
+        
+        $director_first_name = $d_row["first"];
+        $director_last_name = $d_row["last"];
+        $director_full_name = $director_first_name . " " . $director_last_name;
+        
+       
+        $directorURL = "Show_D.php?identifier=" . $actorId;
+        //print to table
+//        echo "<td><a href=$actorURL>$actorName</td>";
+        echo "<td><a href=$directorURL>$director_full_name</td>";
+        echo "</tr>";          
+    }
+    $rs->free();
+    echo "</table><br><br>"; 
 
     $review_query = "SELECT AVG(rating) AS avg_rating FROM Review WHERE mid=$identifier;";
     $rs = $db->query($review_query);
