@@ -85,8 +85,8 @@ if (empty($_GET["identifier"]) && strlen($actor) > 0) {
         $id = $row["id"];
         $actorURL = "Show_A.php?identifier=" . $id;
         echo "<td>$id</td>";
-        echo "<td><a href=$actorURL>$name</td>";
-        echo "<td><a href=$actorURL>$dob</td>";
+        echo "<td><a href=$actorURL>$name</a></td>";
+        echo "<td>$dob</td>";
         echo "</tr>";
     }
     echo "</table>";
