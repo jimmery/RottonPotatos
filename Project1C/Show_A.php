@@ -91,7 +91,7 @@ if (empty($_GET["identifier"]) && strlen($actor) > 0) {
     }
     echo "</table>";
 
-    print 'Total results: ' . $rs->num_rows;
+    print 'Total results: ' . $rs->num_rows . "<br>";
     $rs->free();
 } 
 else if ($identifier > 0) {
@@ -144,6 +144,7 @@ else if ($identifier > 0) {
             echo "<tr>";
             echo "<th>Role</th>";
             echo "<th>Movie Title</th>";
+            echo "<th>Genre</th>";
             echo "<th>Year</th>";
             echo "<th>Rating</th>";
             echo "<th>Company</th>";
@@ -155,24 +156,34 @@ else if ($identifier > 0) {
         
         //get movie info from mid
         $movieId = $row["mid"];
-        $movieInfoQuery = "SELECT * FROM Movie WHERE id=" . $movieId . ";";
+        $movieInfoQuery = "SELECT * FROM Movie WHERE id = " . $movieId . ";";
+//        echo "movie id: " . $movieId . "<br>";
         $movieResult = $db->query($movieInfoQuery);
         $movieRow = $movieResult->fetch_assoc();
         $movieTitle = $movieRow["title"];
         $movieYear = $movieRow["year"];
         $movieRating = $movieRow["rating"];
         $movieCompany = $movieRow["company"];
+        //get genre if it exists in MovieGenre table
+        $genreQuery = "SELECT genre FROM MovieGenre WHERE mid = " . $movieId . ";";
+        $genreResult = $db->query($genreQuery);
+        $genreRow = $genreResult->fetch_assoc();
+        $movieGenre = $genreRow["genre"];
+//        echo "genre: " . $movieGenre . "<br>";
+        
         
         $movieURL = "http://localhost:1438/~cs143/RottonPotatos/Project1C/Show_M.php?identifier=" . $movieId;
         
         //print to table
         echo "<td>$role</td>";
         echo "<td><a href=$movieURL>$movieTitle</td>";
+        echo "<td>$movieGenre</td>";
         echo "<td>$movieYear</td>";
         echo "<td>$movieRating</td>";
         echo "<td>$movieCompany</td>";
         echo "</tr>";          
     }
+    echo "</table> <br>";
 }
 $go_home_url = "index.php";
 echo "<a href=$go_home_url>Go Home. </a><br>";

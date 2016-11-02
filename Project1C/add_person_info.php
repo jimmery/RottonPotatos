@@ -32,11 +32,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $err_msg = $err_msg . "Select Actor or Director! <br>";
 
     $first_name = $_GET["first"];
-    if (strlen($first_name))
+    if (strlen($first_name) <= 0)
         $err_msg = $err_msg . "No First Name given. <br>";
 
     $last_name =  $_GET["last"];
-    if (strlen($last_name))
+    if (strlen($last_name) <= 0)
         $err_msg = $err_msg . "No Last Name given. <br>";
   
     $sex = $_GET["sex"];
@@ -79,12 +79,12 @@ if (strlen($err_msg) > 0)
     return;
 }
 
-if (strlen($type) != 0) { echo "type: " . $type . "<br>"; }
-if (strlen($first_name) != 0) { echo "first name: " . $first_name . "<br>"; }
-if (strlen($last_name) != 0) { echo "last name: " . $last_name . "<br>"; }
-if (strlen($sex) != 0) { echo "sex: " . $sex . "<br>"; }
-echo "dob: " . $dob . "<br>";
-echo "dod: " . $dod . "<br>";
+//if (strlen($type) != 0) { echo "type: " . $type . "<br>"; }
+//if (strlen($first_name) != 0) { echo "first name: " . $first_name . "<br>"; }
+//if (strlen($last_name) != 0) { echo "last name: " . $last_name . "<br>"; }
+//if (strlen($sex) != 0) { echo "sex: " . $sex . "<br>"; }
+//echo "dob: " . $dob . "<br>";
+//echo "dod: " . $dod . "<br>";
 
 //ensure MaxPersonID table is up to date
 $maxActorId = "SELECT MAX(id) AS maxID_A FROM Actor limit 1;";
@@ -114,10 +114,10 @@ $result->free();
 
 if ($id == -1) {
     $id = 1;
-    echo "no id's found in MaxPersonID table. assigning id value 1<br>";
+//    echo "no id's found in MaxPersonID table. assigning id value 1<br>";
 }
 else {
-    echo "fetched new id: " . $id . "<br>";
+//    echo "fetched new id: " . $id . "<br>";
 }
 
 //create query to insert new value to actor table
@@ -134,7 +134,7 @@ else if ( $type == "director" )
         . $dob . "','" . $dod . "');";
 }
 
-echo "query: " . $query;
+//echo "query: " . $query;
 
 $db->query($query);
 $db->query("INSERT INTO MaxPersonID VALUES(" . $id . ");");

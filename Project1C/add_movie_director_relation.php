@@ -46,7 +46,7 @@ htmlspecialchars($_SERVER["PHP_SELF"]);?>">
         <span class="error">* </span> <br>
     <input type="submit" name="submit" value="Submit"> <br>
 </form>
-Similarly, we can do the search on name.
+<!--Similarly, we can do the search on name.-->
 <br>
 <?php
 echo "<br>";
@@ -65,16 +65,16 @@ if (strlen($err_msg) > 0)
     return;
 }
 
-if (strlen($title) != 0) { echo "title: " . $title . "<br>"; }
-if (strlen($first_name) != 0) { echo "first name: " . $first_name . "<br>"; }
-if (strlen($last_name) != 0) { echo "last name: " .  $last_name . "<br>"; }
+//if (strlen($title) != 0) { echo "title: " . $title . "<br>"; }
+//if (strlen($first_name) != 0) { echo "first name: " . $first_name . "<br>"; }
+//if (strlen($last_name) != 0) { echo "last name: " .  $last_name . "<br>"; }
 
 //TODO: SEPARATE INPUT BY ' '
 
 $query_A = "SELECT * FROM Director WHERE first LIKE '%" . $first_name . "%'" . 
         " AND last LIKE '%" . $last_name . "%' limit 1;";
 echo "<br>";
-echo "actor query = " . $query_A . "<br>";
+//echo "actor query = " . $query_A . "<br>";
 
 $actor = $db->query($query_A);
 
@@ -83,7 +83,7 @@ $query_M = "SELECT * "
         . $title 
         . "%' limit 1;";
 
-echo "movie query = " . $query_M . "<br>";
+//echo "movie query = " . $query_M . "<br>";
 
 $get_did = "SELECT id AS did FROM Director WHERE last = '" 
             . $last_name
@@ -94,11 +94,11 @@ $result = $db->query($get_did);
 $value = $result->fetch_assoc();
 $did = $value["did"];
 $result->free();
-echo "get actor id query = " . $get_mid . "<br>";
+//echo "get actor id query = " . $get_mid . "<br>";
 $get_mid = "SELECT id AS mid FROM Movie WHERE title='" 
             . $title
             . "' limit 1;";
-echo "get movie id query = " . $get_mid . "<br>";
+//echo "get movie id query = " . $get_mid . "<br>";
 $result = $db->query($get_mid);
 $value = $result->fetch_assoc();
 $mid = $value["mid"];
@@ -107,7 +107,7 @@ $insert_DM = "INSERT INTO MovieDirector VALUES("
         . $mid 
         . "," . $did 
         . ");";
-echo "insert into director-movie relation query: " . $insert_DM . "<br>";
+//echo "insert into director-movie relation query: " . $insert_DM . "<br>";
 
 $db->query($insert_DM);
 

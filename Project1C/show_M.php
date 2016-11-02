@@ -52,7 +52,7 @@ if ($identifier < 0 && strlen($movie) > 0) {
         else
             $query = $query . " ORDER BY title;";
     }
-    echo $query . "<br>";
+    echo "<br>";
     $rs = $db->query($query);
 
     $attributes_defined = FALSE;
@@ -63,6 +63,7 @@ if ($identifier < 0 && strlen($movie) > 0) {
         {
             echo "<tr>";
             echo "<th>Title</th>";
+            echo "<th>Genre</th>";
             echo "<th>Rating</th>";
             echo "<th>Year</th>";
             echo "</tr>";
@@ -73,8 +74,17 @@ if ($identifier < 0 && strlen($movie) > 0) {
         $year = $row["year"];
         $rating = $row["rating"];
         $id = $row["id"];
+        
+        //get genre info if it exists
+        $query = "SELECT genre FROM MovieGenre WHERE mid=" . $id . ";";
+        $genre_rs = $db->query($query);
+        $genre_row = $genre_rs->fetch_assoc();
+        $genre = $genre_row["genre"];
+        $genre_rs->free();
+        
         $movieURL = "Show_M.php?identifier=" . $id;
         echo "<td><a href=$movieURL>$title</td>";
+        echo "<td>$genre</td>";
         echo "<td>$rating</td>";
         echo "<td>$year</td>";
         echo "</tr>";
@@ -95,6 +105,14 @@ else if ($identifier > 0) {
     $company = $row["company"];
     $rs->free();
     
+    //get movie genre if it exists
+    $query = "SELECT genre FROM MovieGenre WHERE mid=" . $identifier . ";";
+    $genre_rs = $db->query($query);
+    $genre_row = $genre_rs->fetch_assoc();
+    $genre = $genre_row["genre"];
+    $genre_rs->free();
+    
+    
     echo "<h1>$title</h1>";
     //Movie INFO TABLE SETUP
     $attributes_defined = false;
@@ -102,6 +120,7 @@ else if ($identifier > 0) {
     if (!$attributes_defined) {
         echo "<tr>";
         echo "<th>Year</th>";
+        echo "<th>Genre</th>";
         echo "<th>Rating</th>";
         echo "<th>Company</th>";
         echo "</tr>";
@@ -111,6 +130,7 @@ else if ($identifier > 0) {
     // Movie INFO DATA
     echo "<tr>";
     echo "<td>$year</td>";
+    echo "<td>$genre</td>";
     echo "<td>$rating</td>";
     echo "<td>$company</td>";
     echo "</tr>";
@@ -161,7 +181,7 @@ else if ($identifier > 0) {
         echo "<b> Average User Rating: </b>$average_rating out of 5<br><br>";
         $rs->free();
 
-        $review_query = "SELECT name, time, comment FROM Review WHERE mid=$identifier";
+        $review_query = "SELECT * FROM Review WHERE mid=$identifier";
         $rs = $db->query($review_query);
         $attributes_defined = FALSE;
         echo "<table border=\"1\" cellspacing=\"2\" cellpadding=\"8\">";
@@ -171,6 +191,7 @@ else if ($identifier > 0) {
                 echo "<tr>";
                 echo "<th>User</th>";
                 echo "<th>Time</th>";
+                echo "<th>Rating</th>";
                 echo "<th>Comment</th>";
                 echo "</tr>";
                 $attributes_defined = TRUE;
@@ -181,9 +202,12 @@ else if ($identifier > 0) {
             $review_name = $row["name"];
             $review_time = $row["time"];
             $review_cmnt = $row["comment"];
+            $review_rating = $row["rating"];
+            
 
             echo "<td>$review_name</td>";
             echo "<td>$review_time</td>";
+            echo "<td>$review_rating</td>";
             echo "<td>$review_cmnt</td>";
         }
         $rs->free();

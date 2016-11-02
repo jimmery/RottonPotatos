@@ -2,7 +2,7 @@
 <html>
 <body>
 
-<h1>Welcome to Rotton Potatoes!</h1>
+<h1>Welcome to Rotten Potatoes!</h1>
 
 <?php
 $movie_actor_url = "add_movie_actor_relation.php";

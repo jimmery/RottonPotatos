@@ -18,6 +18,7 @@ echo "<h1>Add Movie Info</h1>";
 $title = "";
 $rating = "";
 $company = "";
+$genre = "";
 $err_msg = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -36,6 +37,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $company = $_GET["company"];
     if (strlen($company) <= 0)
         $err_msg = $err_msg . "Company is Missing. <br>";
+    
+    $genre = $_GET["genre"];
+    if (strlen($genre) <= 0)
+        $err_msg = $err_msg . "Genre is Missing. <br>";
 }
 ?>
 
@@ -49,6 +54,8 @@ htmlspecialchars($_SERVER["PHP_SELF"]);?>">
     <b>Rating: </b><input type="text" name="rating" maxlength="10" value=""> 
         <span class="error">* </span><br>
     <b>Company: </b><input type="text" name="company" maxlength="50" value=""> 
+        <span class="error">* </span><br>
+    <b>Genre: </b><input type="text" name="genre" maxlength="20" value=""> 
         <span class="error">* </span><br>
     <input type="submit" name="submit" value="submit"> <br>
 </form>
@@ -94,21 +101,27 @@ else {
     echo "fetched new id: " . $id . "<br>";
 }
 
-//create query to insert new value to actor table
+//create query to insert new value to movie table
 $query = "INSERT INTO Movie VALUES (" . $id . ",'" 
         . $title . "'," . $year . ",'"
         . $rating . "','" . $company . "');";
 
-echo "query: " . $query . "<br>";
+//echo "query: " . $query . "<br>";
 
-echo "title: " . $title . "<br>";
-//run the query to add the actor to the actor table
+//echo "title: " . $title . "<br>";
+//run the query to add the movie to the movie table
 $db->query($query);
 
 //add the new actor's id to the maxpersonid table
 $db->query("INSERT INTO MaxMovieID VALUES(" . $id . ");");
 
-echo "Movie Added Successfully with ID = $id";
+
+//add the movie and its genre to the MovieGenre table
+$query = "INSERT INTO MovieGenre VALUES (" . $id . ",'" . $genre . "');";
+$db->query($query);
+//echo "add to MovieGenre query: " . $query . "<br>";
+
+//echo "Movie Added Successfully with ID = $id <br>";
 
 $result->free();
 $go_home_url = "index.php";

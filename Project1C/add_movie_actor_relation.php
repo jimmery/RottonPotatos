@@ -63,7 +63,7 @@ htmlspecialchars($_SERVER["PHP_SELF"]);?>">
     <input type="submit" name="submit" value="Submit"> <br>
 </form>
 <br>
-We can change the name search to be similar to what we have in searches.
+<!--We can change the name search to be similar to what we have in searches.-->
 <br>
 <?php
 echo "<br>";
